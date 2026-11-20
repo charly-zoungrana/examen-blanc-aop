@@ -16,7 +16,9 @@ Application Java 21 de gestion d’agents et de leurs transactions. Les question
 
 La transaction est immuable. Les quatre champs doivent être renseignés. Le montant doit être fini et positif ou nul. Un montant nul doit être fourni explicitement. Le type est limité à `ACHAT` ou `VENTE`.
 
-Le scénario construit une vente de 125 et un achat de 40, puis montre les refus pour un montant absent et un montant négatif. [Capture IntelliJ](diagrammes-captures/scenario-transaction.jpg)
+Le scénario construit une vente de 125 et un achat de 40, puis montre les refus pour un montant absent et un montant négatif.
+
+![Console IntelliJ — Transaction et Builder](diagrammes-captures/scenario-transaction.jpg)
 
 ## 3. Agent, notifications et stratégies
 
@@ -24,13 +26,17 @@ Le scénario construit une vente de 125 et un achat de 40, puis montre les refus
 
 `afficher()` imprime le nom de l’agent et ses transactions. `transactionMax()` compare les montants et renvoie `null` si la collection est vide.
 
-Bob observe Alice. Il reçoit une première notification, passe au scoring (80 − 30 = 50), puis archive la vente suivante. Le registre d’Alice affiche un maximum de 150. [Capture IntelliJ](diagrammes-captures/scenario-agent.jpg)
+Bob observe Alice. Il reçoit une première notification, passe au scoring (80 − 30 = 50), puis archive la vente suivante. Le registre d’Alice affiche un maximum de 150.
+
+![Console IntelliJ — Agent, Observer et Strategy](diagrammes-captures/scenario-agent.jpg)
 
 ## 4. Conteneur et afficheurs
 
 Le conteneur indexe ses agents par nom dans une `HashMap<String, Agent>`. Un ajout avec un nom déjà présent remplace l’entrée. Une recherche absente renvoie `null`. L’état envoyé au port HDMI contient les noms triés des agents. L’adaptateur convertit l’appel `HDMI.afficher` en `AfficheurVGA.afficherVGA`.
 
-Le scénario vérifie l’instance unique, retrouve Agence Sud et affiche les deux agences en HDMI. Après suppression d’Agence Nord, l’adaptateur VGA affiche uniquement Agence Sud. [Capture IntelliJ](diagrammes-captures/scenario-conteneur.jpg)
+Le scénario vérifie l’instance unique, retrouve Agence Sud et affiche les deux agences en HDMI. Après suppression d’Agence Nord, l’adaptateur VGA affiche uniquement Agence Sud.
+
+![Console IntelliJ — Conteneur et affichage HDMI/VGA](diagrammes-captures/scenario-conteneur.jpg)
 
 ## 5. Patterns supplémentaires proposés
 
@@ -50,7 +56,9 @@ AspectJ tisse les aspects au chargement des classes. Le fichier `src/main/resour
 | `@Cachable` | Mémorise le maximum par agent, y compris le résultat vide. L’ajout invalide le cache avant la notification pour qu’un observateur qui consulte le maximum voie la nouvelle transaction. Un résultat servi du cache évite l’exécution du calcul et sa journalisation. |
 | `@SecuredBy(roles = {...})` | Vérifie la présence d’au moins un rôle requis avant l’appel. `ADMIN` peut gérer les agents et le branchement. `LECTEUR` peut rechercher et afficher. L’authentification vérifie le mot de passe avec PBKDF2 et un sel aléatoire. Le contexte d’authentification est restauré après l’opération. |
 
-Le scénario montre un calcul chronométré du maximum à 75, une seconde lecture depuis le cache, puis un recalcul à 180 après ajout. Il vérifie les refus sans connexion, avec un mauvais mot de passe et avec le rôle LECTEUR pour une écriture. Le rôle ADMIN peut ajouter et retrouver un agent. [Capture IntelliJ](diagrammes-captures/scenario-aspects.jpg)
+Le scénario montre un calcul chronométré du maximum à 75, une seconde lecture depuis le cache, puis un recalcul à 180 après ajout. Il vérifie les refus sans connexion, avec un mauvais mot de passe et avec le rôle LECTEUR pour une écriture. Le rôle ADMIN peut ajouter et retrouver un agent.
+
+![Console IntelliJ — Journalisation, cache et sécurité](diagrammes-captures/scenario-aspects.jpg)
 
 ## Exécuter les scénarios
 
@@ -64,4 +72,6 @@ mvn clean compile exec:exec
 
 Ajouter par exemple `'-Dscenario=agent'` pour lancer uniquement le scénario Agent. Les packages `transaction`, `agent`, `observateur`, `strategie`, `conteneur`, `affichage`, `aspect` et `securite` suivent les rôles du modèle.
 
-Les images sont des captures de la fenêtre Run d’IntelliJ IDEA sur Windows. [Capture de l’exécution complète de Main](diagrammes-captures/scenario-main.jpg)
+Les images sont des captures de la fenêtre Run d’IntelliJ IDEA sur Windows.
+
+![Capture de l’exécution complète de Main](diagrammes-captures/scenario-main.jpg)
