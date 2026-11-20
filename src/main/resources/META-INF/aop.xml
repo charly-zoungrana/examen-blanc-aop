@@ -1,0 +1,8 @@
+<aspectj>
+    <aspects>
+        <aspect name="net.zoungrana.JournalisationAspect"/>
+    </aspects>
+    <weaver>
+        <include within="net.zoungrana..*"/>
+    </weaver>
+</aspectj>
