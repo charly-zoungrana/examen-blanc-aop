@@ -17,23 +17,28 @@ public final class Container {
         return instance;
     }
 
+    @SecuredBy(roles = "ADMIN")
     public void ajouterAgent(Agent agent) {
         Objects.requireNonNull(agent, "agent");
         agents.put(agent.getNom(), agent);
     }
 
+    @SecuredBy(roles = "ADMIN")
     public void supprimerAgent(String nom) {
         agents.remove(nom);
     }
 
+    @SecuredBy(roles = {"ADMIN", "LECTEUR"})
     public Agent chercherAgent(String nom) {
         return agents.get(nom);
     }
 
+    @SecuredBy(roles = "ADMIN")
     public void brancher(HDMI afficheur) {
         this.afficheur = Objects.requireNonNull(afficheur, "afficheur");
     }
 
+    @SecuredBy(roles = {"ADMIN", "LECTEUR"})
     public void afficher() {
         if (afficheur != null) {
             String etat = agents.keySet().stream().sorted()

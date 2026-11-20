@@ -2,6 +2,7 @@
     <aspects>
         <aspect name="net.zoungrana.JournalisationAspect"/>
         <aspect name="net.zoungrana.CacheTransactionAspect"/>
+        <aspect name="net.zoungrana.SecuriteAspect"/>
     </aspects>
     <weaver>
         <include within="net.zoungrana..*"/>
