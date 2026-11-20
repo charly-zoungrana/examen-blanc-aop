@@ -16,7 +16,7 @@ Application Java 21 de gestion d’agents et de leurs transactions. Les question
 
 La transaction est immuable. Les quatre champs doivent être renseignés. Le montant doit être fini et positif ou nul. Un montant nul doit être fourni explicitement. Le type est limité à `ACHAT` ou `VENTE`.
 
-`TransactionTest` vérifie les valeurs construites, le champ montant obligatoire et le rejet des montants invalides. [Capture des résultats](diagrammes-captures/tests-transaction.jpg)
+Le scénario construit une vente de 125 et un achat de 40, puis montre les refus pour un montant absent et un montant négatif. [Capture IntelliJ](diagrammes-captures/scenario-transaction.jpg)
 
 ## 3. Agent, notifications et stratégies
 
@@ -24,13 +24,13 @@ La transaction est immuable. Les quatre champs doivent être renseignés. Le mon
 
 `afficher()` imprime le nom de l’agent et ses transactions. `transactionMax()` compare les montants et renvoie `null` si la collection est vide.
 
-`AgentTest` vérifie l’événement transmis, l’absence de notifications en double, le changement de stratégie, le score, l’historique et le maximum. [Capture des résultats](diagrammes-captures/tests-agent.jpg)
+Bob observe Alice. Il reçoit une première notification, passe au scoring (80 − 30 = 50), puis archive la vente suivante. Le registre d’Alice affiche un maximum de 150. [Capture IntelliJ](diagrammes-captures/scenario-agent.jpg)
 
 ## 4. Conteneur et afficheurs
 
 Le conteneur indexe ses agents par nom dans une `HashMap<String, Agent>`. Un ajout avec un nom déjà présent remplace l’entrée. Une recherche absente renvoie `null`. L’état envoyé au port HDMI contient les noms triés des agents. L’adaptateur convertit l’appel `HDMI.afficher` en `AfficheurVGA.afficherVGA`.
 
-`ContainerTest` vérifie l’identité du singleton, l’ajout, la recherche, la suppression et les deux branchements. [Capture des résultats](diagrammes-captures/tests-container.jpg)
+Le scénario vérifie l’instance unique, retrouve Agence Sud et affiche les deux agences en HDMI. Après suppression d’Agence Nord, l’adaptateur VGA affiche uniquement Agence Sud. [Capture IntelliJ](diagrammes-captures/scenario-conteneur.jpg)
 
 ## 5. Patterns supplémentaires proposés
 
@@ -42,7 +42,7 @@ Le conteneur indexe ses agents par nom dans une `HashMap<String, Agent>`. Un ajo
 
 ## 6. Aspects techniques
 
-AspectJ tisse les aspects au chargement des classes. Le fichier `src/main/resources/META-INF/aop.xml` enregistre les trois aspects et Maven Surefire active l’agent Java pendant les tests.
+AspectJ tisse les aspects au chargement des classes. Le fichier `src/main/resources/META-INF/aop.xml` enregistre les trois aspects et Maven Exec lance la JVM de l’application avec le javaagent AspectJ et des flux de console en UTF-8.
 
 | Annotation | Comportement vérifié |
 | --- | --- |
@@ -50,23 +50,18 @@ AspectJ tisse les aspects au chargement des classes. Le fichier `src/main/resour
 | `@Cachable` | Mémorise le maximum par agent, y compris le résultat vide. L’ajout invalide le cache avant la notification pour qu’un observateur qui consulte le maximum voie la nouvelle transaction. Un résultat servi du cache évite l’exécution du calcul et sa journalisation. |
 | `@SecuredBy(roles = {...})` | Vérifie la présence d’au moins un rôle requis avant l’appel. `ADMIN` peut gérer les agents et le branchement. `LECTEUR` peut rechercher et afficher. L’authentification vérifie le mot de passe avec PBKDF2 et un sel aléatoire. Le contexte d’authentification est restauré après l’opération. |
 
-Les trois aspects disposent de tests JUnit. [Capture de la suite complète](diagrammes-captures/tests-suite.jpg)
+Le scénario montre un calcul chronométré du maximum à 75, une seconde lecture depuis le cache, puis un recalcul à 180 après ajout. Il vérifie les refus sans connexion, avec un mauvais mot de passe et avec le rôle LECTEUR pour une écriture. Le rôle ADMIN peut ajouter et retrouver un agent. [Capture IntelliJ](diagrammes-captures/scenario-aspects.jpg)
 
-## Exécuter sur Windows
+## Exécuter les scénarios
 
-Depuis PowerShell, avec Java 21 et Maven :
+Avec Java 21, sélectionner dans IntelliJ une configuration versionnée dans `.run` parmi **01 Transaction**, **02 Agent**, **03 Conteneur**, **04 Aspects** et **05 Main complet**. Chaque configuration lance `net.zoungrana.Main` dans une JVM équipée d’AspectJ. Les contrôles intégrés affichent `OK` et arrêtent l’application si un résultat est inattendu. Les comptes utilisés sont des comptes de démonstration locaux.
 
-```powershell
-mvn clean test
-```
-
-Pour lancer la démonstration interactive, renseigner `EXAMEN_USERNAME` et `EXAMEN_PASSWORD` dans l’environnement du terminal, puis utiliser les mêmes identifiants à l’invite. Le compte de démonstration reçoit le rôle `ADMIN`.
+Depuis PowerShell, compiler et exécuter les quatre scénarios dans le même processus.
 
 ```powershell
-mvn package
-$m2 = (mvn -q help:evaluate '-Dexpression=settings.localRepository' '-DforceStdout' | Out-String).Trim()
-$aspectj = Join-Path $m2 'org/aspectj/aspectjweaver/1.9.22.1/aspectjweaver-1.9.22.1.jar'
-java "-javaagent:$aspectj" -cp "target/classes;$aspectj" net.zoungrana.Main
+mvn clean compile exec:exec
 ```
 
-Les quatre captures ont été prises dans la fenêtre Run d’IntelliJ IDEA sur Windows après avoir lancé Maven → Lifecycle → test. Les captures par classe montrent différents passages de cette exécution. IntelliJ a affiché 11 tests réussis, BUILD SUCCESS et un code de sortie 0. Les rapports détaillés sont générés dans `target/surefire-reports`.
+Ajouter par exemple `'-Dscenario=agent'` pour lancer uniquement le scénario Agent. Les packages `transaction`, `agent`, `observateur`, `strategie`, `conteneur`, `affichage`, `aspect` et `securite` suivent les rôles du modèle.
+
+Les images sont des captures de la fenêtre Run d’IntelliJ IDEA sur Windows. [Capture de l’exécution complète de Main](diagrammes-captures/scenario-main.jpg)
