@@ -45,6 +45,7 @@ public final class Main {
             for (String nom : List.of("transaction", "agent", "conteneur", "aspects")) {
                 scenarios.get(nom).run();
             }
+            System.out.println("Main : les quatre scénarios ont réussi.");
             return;
         }
 

@@ -32,6 +32,8 @@
                     <executable>${java.home}/bin/java</executable>
                     <arguments>
                         <argument>-javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar</argument>
+                        <argument>-Dstdout.encoding=UTF-8</argument>
+                        <argument>-Dstderr.encoding=UTF-8</argument>
                         <argument>-classpath</argument>
                         <classpath/>
                         <argument>net.zoungrana.Main</argument>
