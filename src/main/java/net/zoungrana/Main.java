@@ -1,5 +1,14 @@
 package net.zoungrana;
 
+import net.zoungrana.affichage.AdaptateurVGA;
+import net.zoungrana.affichage.AfficheurVGA;
+import net.zoungrana.agent.Agent;
+import net.zoungrana.conteneur.Container;
+import net.zoungrana.securite.Authentification;
+import net.zoungrana.strategie.ScoringStrategy;
+import net.zoungrana.transaction.TransactionBuilder;
+import net.zoungrana.transaction.TypeTransaction;
+
 import java.io.Console;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -15,7 +24,7 @@ public class Main {
             return;
         }
 
-        Authentification authentification = new Authentification();
+        Authentification authentification = Authentification.creer();
         char[] secret = motDePasseConfigure.toCharArray();
         try {
             authentification.ajouterCompte(nomConfigure, secret, Set.of("ADMIN"));

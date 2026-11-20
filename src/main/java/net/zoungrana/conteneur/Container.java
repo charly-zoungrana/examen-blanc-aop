@@ -1,4 +1,8 @@
-package net.zoungrana;
+package net.zoungrana.conteneur;
+
+import net.zoungrana.affichage.HDMI;
+import net.zoungrana.agent.Agent;
+import net.zoungrana.aspect.SecuredBy;
 
 import java.util.HashMap;
 import java.util.Objects;

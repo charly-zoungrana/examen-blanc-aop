@@ -1,4 +1,6 @@
-package net.zoungrana;
+package net.zoungrana.strategie;
+
+import net.zoungrana.observateur.EvenementTransaction;
 
 public final class StrategieParDefaut implements StrategieNotification {
     @Override

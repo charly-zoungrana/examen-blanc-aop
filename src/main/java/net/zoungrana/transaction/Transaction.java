@@ -1,4 +1,4 @@
-package net.zoungrana;
+package net.zoungrana.transaction;
 
 import java.time.LocalDate;
 import java.util.Objects;

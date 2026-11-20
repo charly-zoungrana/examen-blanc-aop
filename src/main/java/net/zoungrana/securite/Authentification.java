@@ -1,4 +1,4 @@
-package net.zoungrana;
+package net.zoungrana.securite;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -16,10 +16,14 @@ public final class Authentification {
 
     private final Map<String, Compte> comptes = new HashMap<>();
 
-    Authentification() {
+    private Authentification() {
     }
 
-    void ajouterCompte(String nom, char[] motDePasse, Set<String> roles) {
+    public static Authentification creer() {
+        return new Authentification();
+    }
+
+    public void ajouterCompte(String nom, char[] motDePasse, Set<String> roles) {
         Objects.requireNonNull(nom, "nom");
         if (nom.isBlank() || motDePasse.length == 0) {
             throw new IllegalArgumentException("Nom et mot de passe requis");
@@ -51,7 +55,7 @@ public final class Authentification {
         }
     }
 
-    static boolean possedeUnRole(String[] rolesAutorises) {
+    public static boolean possedeUnRole(String[] rolesAutorises) {
         Set<String> roles = ROLES_COURANTS.get();
         if (roles == null) {
             return false;

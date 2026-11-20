@@ -1,4 +1,7 @@
-package net.zoungrana;
+package net.zoungrana.strategie;
+
+import net.zoungrana.observateur.EvenementTransaction;
+import net.zoungrana.transaction.Transaction;
 
 import java.util.ArrayList;
 import java.util.List;

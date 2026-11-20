@@ -1,4 +1,6 @@
-package net.zoungrana;
+package net.zoungrana.observateur;
+
+import net.zoungrana.transaction.Transaction;
 
 import java.util.Objects;
 

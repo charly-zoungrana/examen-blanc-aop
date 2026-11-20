@@ -1,8 +1,8 @@
 <aspectj>
     <aspects>
-        <aspect name="net.zoungrana.JournalisationAspect"/>
-        <aspect name="net.zoungrana.CacheTransactionAspect"/>
-        <aspect name="net.zoungrana.SecuriteAspect"/>
+        <aspect name="net.zoungrana.aspect.JournalisationAspect"/>
+        <aspect name="net.zoungrana.aspect.CacheTransactionAspect"/>
+        <aspect name="net.zoungrana.aspect.SecuriteAspect"/>
     </aspects>
     <weaver>
         <include within="net.zoungrana..*"/>

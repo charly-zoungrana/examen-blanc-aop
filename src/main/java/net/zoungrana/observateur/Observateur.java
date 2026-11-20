@@ -1,4 +1,4 @@
-package net.zoungrana;
+package net.zoungrana.observateur;
 
 @FunctionalInterface
 public interface Observateur {

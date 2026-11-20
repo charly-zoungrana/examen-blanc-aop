@@ -1,8 +1,9 @@
-package net.zoungrana;
+package net.zoungrana.aspect;
 
 import java.lang.annotation.*;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface Cachable {
+public @interface SecuredBy {
+    String[] roles();
 }

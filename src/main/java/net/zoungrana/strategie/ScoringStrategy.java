@@ -1,4 +1,7 @@
-package net.zoungrana;
+package net.zoungrana.strategie;
+
+import net.zoungrana.observateur.EvenementTransaction;
+import net.zoungrana.transaction.Transaction;
 
 public final class ScoringStrategy implements StrategieNotification {
     private double solde;

@@ -1,4 +1,4 @@
-package net.zoungrana;
+package net.zoungrana.affichage;
 
 public final class AfficheurHDMI implements HDMI {
     @Override

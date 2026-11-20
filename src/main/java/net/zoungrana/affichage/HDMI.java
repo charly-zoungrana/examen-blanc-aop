@@ -1,4 +1,4 @@
-package net.zoungrana;
+package net.zoungrana.affichage;
 
 @FunctionalInterface
 public interface HDMI {

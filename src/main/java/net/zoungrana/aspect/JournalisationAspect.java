@@ -1,4 +1,4 @@
-package net.zoungrana;
+package net.zoungrana.aspect;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 public class JournalisationAspect {
     private static final Logger LOGGER = Logger.getLogger(JournalisationAspect.class.getName());
 
-    @Around("execution(@net.zoungrana.Log * *(..))")
+    @Around("execution(@net.zoungrana.aspect.Log * *(..))")
     public Object mesurer(ProceedingJoinPoint appel) throws Throwable {
         long debut = System.nanoTime();
         try {

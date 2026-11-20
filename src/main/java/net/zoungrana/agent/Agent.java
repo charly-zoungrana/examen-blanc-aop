@@ -1,4 +1,12 @@
-package net.zoungrana;
+package net.zoungrana.agent;
+
+import net.zoungrana.aspect.Cachable;
+import net.zoungrana.aspect.Log;
+import net.zoungrana.observateur.EvenementTransaction;
+import net.zoungrana.observateur.Observateur;
+import net.zoungrana.strategie.StrategieNotification;
+import net.zoungrana.strategie.StrategieParDefaut;
+import net.zoungrana.transaction.Transaction;
 
 import java.util.ArrayList;
 import java.util.Comparator;

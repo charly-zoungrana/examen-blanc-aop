@@ -1,8 +1,8 @@
-package net.zoungrana;
+package net.zoungrana.aspect;
 
 import java.lang.annotation.*;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface Log {
+public @interface Cachable {
 }

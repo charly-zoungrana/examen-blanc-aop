@@ -1,4 +1,4 @@
-package net.zoungrana;
+package net.zoungrana.affichage;
 
 import java.util.Objects;
 
