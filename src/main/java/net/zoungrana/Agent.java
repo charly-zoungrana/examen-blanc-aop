@@ -57,6 +57,8 @@ public final class Agent implements Observateur {
         transactions.forEach(System.out::println);
     }
 
+    @Cachable
+    @Log
     public Transaction transactionMax() {
         return transactions.stream().max(Comparator.comparingDouble(Transaction::getMontant)).orElse(null);
     }
